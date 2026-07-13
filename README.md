@@ -1,12 +1,83 @@
-# Sorokit Core (`@sorokit/core`)
+# sorokit-core
 
-The robust TypeScript engine and state-management core powering the Sorokit SDK ecosystem. 
+The foundational TypeScript engine and lightweight React hooks library for building seamless, reactive dApps on Stellar Soroban. 🚀
 
-Connecting a modern frontend to high-performance Soroban WASM smart contracts shouldn't require writing complex, low-level integration layers from scratch. **Sorobun Core** bridges this gap, giving JavaScript and TypeScript developers a suite of clean, developer-friendly React hooks and wallet-connection abstractions.
+`sorokit-core` wraps the low-level pieces of connecting a React frontend to a Soroban contract — wallet connection, transaction signing, invoke/submit/poll — behind a small set of ergonomic hooks, so you don't have to hand-roll this per project.
 
-### Key Capabilities
-* **Low-Level Wallet Abstraction:** Unified interface supporting Freighter, Albedo, and xBull wallets with automatic network detection and connection state management.
-* **Ergonomic Smart Contract Hooks:** `useContract` and `useSorobanCall` hooks that provide typed responses mapped directly from your contract’s WASM interface, removing manual hex encoding/decoding.
-* **Transaction Lifecycle Tracking:** Global state management that natively monitors transaction submissions from `pending` through to `success` or `error` states.
+## Install
 
-*Build reactive, fast dApps on Stellar without the boilerplate.*
+```bash
+npm install @sorokit/core
+```
+
+## Usage
+
+```tsx
+import { useWallet, useContract, useSorobanCall } from '@sorokit/core';
+
+function MyDapp() {
+  const { account, status, connect } = useWallet();
+
+  const { contract, server } = useContract({
+    contractId: 'CABCD...',
+    networkConfig: {
+      network: 'TESTNET',
+      networkPassphrase: 'Test SDF Network ; September 2015',
+      rpcUrl: 'https://soroban-testnet.stellar.org',
+    },
+  });
+
+  const { call, status: callStatus, data } = useSorobanCall({
+    contract,
+    server,
+    networkPassphrase: 'Test SDF Network ; September 2015',
+    walletAdapter: /* the adapter returned by useWallet */,
+    sourcePublicKey: account?.publicKey ?? '',
+  });
+
+  if (status !== 'connected') {
+    return <button onClick={() => connect('freighter')}>Connect Freighter</button>;
+  }
+
+  return <button onClick={() => call('increment')}>Call increment()</button>;
+}
+```
+
+## Wallets
+
+| Wallet | Status |
+|---|---|
+| Freighter | ✅ Implemented |
+| Albedo | 🚧 Scaffolded, integration tracked |
+| xBull | 🚧 Scaffolded, integration tracked |
+
+## Package layout
+
+```
+src/
+  hooks/        useWallet, useContract, useSorobanCall
+  wallets/      Per-wallet adapters behind a common WalletAdapter interface
+  types.ts      Shared types used across hooks and wallets
+```
+
+## Development
+
+```bash
+npm install
+npm run build      # bundles with tsup
+npm run typecheck
+npm run test
+```
+
+## Related packages
+
+- [`@sorokit/ui`](https://github.com/sorokit-dev/sorokit-ui) — Tailwind-styled components (connect button, tx status toast) built on top of these hooks.
+- [`sorokit-docs`](https://github.com/sorokit-dev/sorokit-docs) — Full docs and live sandboxes.
+
+## Contributing
+
+Issues tagged for the Stellar Wave Program are labeled accordingly — see open issues for scoped, complexity-rated tasks if you'd like to contribute.
+
+## License
+
+MIT

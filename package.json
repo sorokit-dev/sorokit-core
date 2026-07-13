@@ -1,0 +1,53 @@
+{
+  "name": "@sorokit/core",
+  "version": "0.1.0",
+  "description": "TypeScript engine and React hooks for building reactive dApps on Stellar Soroban.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "dependencies": {
+    "@stellar/freighter-api": "^3.0.0",
+    "@stellar/stellar-sdk": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "eslint": "^9.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.5.0"
+  },
+  "keywords": [
+    "soroban",
+    "stellar",
+    "react",
+    "sdk",
+    "dapp",
+    "web3"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sorokit-dev/sorokit-core"
+  }
+}

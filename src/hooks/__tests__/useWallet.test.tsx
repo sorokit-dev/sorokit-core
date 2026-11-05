@@ -90,4 +90,25 @@ describe('useWallet', () => {
     expect(result.current.status).toBe('disconnected');
     expect(result.current.account).toBeNull();
   });
+
+  it('still disconnects when the adapter cleanup rejects', async () => {
+    vi.mocked(walletAdapters.freighter.connect).mockResolvedValue({
+      publicKey: 'GABC123',
+    });
+    vi.mocked(walletAdapters.freighter.disconnect!).mockRejectedValueOnce(
+      new Error('cleanup failed')
+    );
+
+    const { result } = renderHook(() => useWallet());
+
+    await act(async () => {
+      await result.current.connect('freighter');
+    });
+    await act(async () => {
+      result.current.disconnect();
+    });
+
+    expect(result.current.status).toBe('disconnected');
+    expect(result.current.account).toBeNull();
+  });
 });

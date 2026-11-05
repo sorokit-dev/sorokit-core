@@ -23,7 +23,7 @@ Requires React 18 or newer.
 import { useWallet, useContract, useSorobanCall } from '@sorokit/core';
 
 function MyDapp() {
-  const { account, status, connect } = useWallet();
+  const { account, adapter, status, connect } = useWallet();
 
   const { contract, server } = useContract({
     contractId: 'CABCD...',
@@ -38,7 +38,7 @@ function MyDapp() {
     contract,
     server,
     networkPassphrase: 'Test SDF Network ; September 2015',
-    walletAdapter: /* the adapter returned by useWallet */,
+    walletAdapter: adapter, // null until a wallet is connected
     sourcePublicKey: account?.publicKey ?? '',
   });
 
@@ -46,9 +46,15 @@ function MyDapp() {
     return <button onClick={() => connect('freighter')}>Connect Freighter</button>;
   }
 
-  return <button onClick={() => call('increment')}>Call increment()</button>;
+  return (
+    <button onClick={() => call('increment')}>
+      Call increment() — {callStatus}
+    </button>
+  );
 }
 ```
+
+`useSorobanCall` waits up to 60 seconds for a submitted transaction to be confirmed (poll every second). Override with `timeoutMs` and `pollIntervalMs` if you need different values. If the wait times out, the call ends in the `error` status and the message includes the transaction hash.
 
 ## Wallets
 

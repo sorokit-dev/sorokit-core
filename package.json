@@ -9,16 +9,17 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
-    "lint": "eslint src --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -32,15 +33,25 @@
   "devDependencies": {
     "@testing-library/react": "^15.0.0",
     "@types/react": "^18.2.0",
-    "eslint": "^9.0.0",
     "jsdom": "^24.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",
     "vitest": "^1.5.0"
   },
-  "keywords": ["soroban", "stellar", "react", "sdk", "dapp", "web3"],
+  "keywords": [
+    "soroban",
+    "stellar",
+    "react",
+    "sdk",
+    "dapp",
+    "web3"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/sorokit-dev/sorokit-core"
+  },
+  "homepage": "https://github.com/sorokit-dev/sorokit-core#readme",
+  "bugs": {
+    "url": "https://github.com/sorokit-dev/sorokit-core/issues"
   }
 }

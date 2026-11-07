@@ -22,12 +22,6 @@ export interface UseSorobanCallReturn<T> extends SorobanCallResult<T> {
   reset: () => void;
 }
 
-const idleResult = {
-  data: null,
-  error: null,
-  transactionHash: null,
-};
-
 /**
  * Drives a single Soroban contract invocation through its full
  * lifecycle — build, sign (via the connected wallet), submit, and poll

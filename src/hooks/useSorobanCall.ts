@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   BASE_FEE,
   TransactionBuilder,
@@ -57,9 +57,13 @@ export function useSorobanCall<T = unknown>(
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
 
   // Always read the latest options without making `call` change identity
-  // every time the caller passes a fresh options object.
+  // every time the caller passes a fresh options object. The ref is updated
+  // in an effect rather than during render, which is unsafe under concurrent
+  // rendering and is flagged by the react-hooks lint rules.
   const optionsRef = useRef(options);
-  optionsRef.current = options;
+  useEffect(() => {
+    optionsRef.current = options;
+  });
 
   const reset = useCallback(() => {
     setStatus('idle');

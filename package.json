@@ -20,6 +20,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -33,9 +34,12 @@
   "devDependencies": {
     "@testing-library/react": "^15.0.0",
     "@types/react": "^18.2.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "jsdom": "^24.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",
+    "typescript-eslint": "^8.72.1",
     "vitest": "^1.5.0"
   },
   "keywords": [

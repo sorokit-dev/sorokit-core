@@ -30,11 +30,13 @@ npm install
 Useful commands:
 
 ```bash
+npm run lint        # ESLint flat config
 npm run typecheck   # TypeScript, no emit
 npm test            # Vitest (jsdom)
 npm run build       # tsup, outputs ESM + CJS + types to dist/
 ```
 
+All four must pass before you open a pull request. CI runs the same commands on Node 20 and 22.
 All three must pass before you open a pull request. CI runs the same commands on Node 20 and 22.
 
 ## Making a change

@@ -48,7 +48,9 @@ export function useWallet(): UseWalletResult {
   }, []);
 
   const disconnect = useCallback(() => {
-    adapter?.disconnect?.();
+    // Adapters may clean up asynchronously; a failure there must not surface
+    // as an unhandled rejection, since local state is cleared regardless.
+    Promise.resolve(adapter?.disconnect?.()).catch(() => undefined);
     setAccount(null);
     setAdapter(null);
     setStatus('disconnected');
